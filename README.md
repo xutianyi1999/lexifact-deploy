@@ -94,6 +94,7 @@ docker compose up -d
 ./scripts/lexifact.py logs    # 查看日志
 ./scripts/lexifact.py ps      # 查看容器状态
 ./scripts/lexifact.py pull    # 拉取最新镜像
+./scripts/lexifact.py create-tenant   # 创建租户 API Key
 ```
 
 ## 数据结构
