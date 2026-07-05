@@ -84,7 +84,7 @@ def up():
         console.print("\n[red]Preflight failed. Fix issues above and try again.[/red]")
         raise typer.Exit(1)
 
-    compose("pull")
+    compose("--profile", "image", "pull")
     compose("up", "-d")
 
 
