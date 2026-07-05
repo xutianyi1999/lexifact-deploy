@@ -1,0 +1,63 @@
+services:
+  nginx:
+    image: ghcr.io/xutianyi1999/lexifact-nginx:latest
+    ports:
+      - "${NGINX_PORT:?Host port for nginx reverse proxy (e.g. 80)}:80"
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    image: ghcr.io/xutianyi1999/lexifact-frontend:latest
+    expose:
+      - 3000
+    restart: unless-stopped
+    environment:
+      - BACKEND_URL=http://backend:8080
+    depends_on:
+      - backend
+
+  backend:
+    image: ghcr.io/xutianyi1999/lexifact-backend:latest
+    expose:
+      - "8080"
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.lexifact:/root/.lexifact
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET:?Secret key for JWT signing — any random string, change in production}
+      - MOBSF_BASE_URL=http://mobsf:8000
+      - MOBSF_API_KEY=lexifact-mobsf-fixed-key
+      - MOBSF_TIMEOUT_SECS=300
+      - LLM_PROXY_TOKEN=lx-lexifact-internal-proxy-secret
+      - LLM_BASE_URL=${LLM_BASE_URL:?LLM API base URL, OpenAI-compatible — e.g. https://api.deepseek.com}
+      - LLM_API_KEY=${LLM_API_KEY:?LLM API key}
+      - LLM_MODEL=${LLM_MODEL:?LLM model name — e.g. deepseek-v4-flash, deepseek-v4-pro}
+      - LLM_REASONING_EFFORT=${LLM_REASONING_EFFORT:?LLM reasoning effort — minimal / low / default / high / max}
+      - VOICE_ARK_API_KEY=${VOICE_ARK_API_KEY:?Volcengine ARK API key for ASR}
+      - MIDSCENE_MODEL_BASE_URL=${MIDSCENE_MODEL_BASE_URL:?Midscene vision model base URL}
+      - MIDSCENE_MODEL_API_KEY=${MIDSCENE_MODEL_API_KEY:?Midscene vision model API key}
+      - MIDSCENE_MODEL_NAME=${MIDSCENE_MODEL_NAME:?Midscene model name for UI automation}
+      - MIDSCENE_MODEL_FAMILY=${MIDSCENE_MODEL_FAMILY:?Midscene model family}
+      - MIDSCENE_MODEL_EXTRA_BODY_JSON=${MIDSCENE_MODEL_EXTRA_BODY_JSON:?Extra JSON body for Midscene model}
+      - MINERU_TOKEN=${MINERU_TOKEN:?MinerU document parsing API Bearer token}
+      - LICENSE_KEY=${LICENSE_KEY:?License activation key}
+    depends_on:
+      - mobsf
+
+  mobsf:
+    image: ghcr.io/xutianyi1999/lexifact-mobsf:latest
+    expose:
+      - 8000
+    restart: unless-stopped
+    environment:
+      - MOBSF_API_KEY=lexifact-mobsf-fixed-key
+
+  session:
+    image: ghcr.io/xutianyi1999/lexifact-session:latest
+    profiles:
+      - image
+    restart: no
