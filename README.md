@@ -41,12 +41,7 @@ cp .env.example .env
 ### 3. 启动
 
 ```bash
-# 首次启动前先登录 GHCR 拉取镜像
-docker login ghcr.io -u YOUR_GITHUB_USERNAME
-# 输入 GitHub Token（需要 read:packages 权限）
-
-# 启动所有服务
-./scripts/manage.py up
+./scripts/lexifact.py up
 ```
 
 或者直接用 docker compose：
@@ -61,14 +56,13 @@ docker compose up -d
 ### 4. 创建租户
 
 ```bash
-./scripts/manage.py init
+./scripts/lexifact.py init
 # 然后访问前端页面，按指引创建租户
 ```
 
 ## 更新
 
 ```bash
-cd /opt/lexifact  # 你的部署目录
 git pull
 docker compose pull
 docker compose up -d
@@ -76,15 +70,24 @@ docker compose up -d
 
 更新前建议查看 [CHANGELOG.md](./CHANGELOG.md) 了解变更。
 
+## 回滚
+
+```bash
+git tag --list                # 查看有哪些版本
+git checkout v0.1.0           # 回滚到指定版本（compose 文件会 pin 对应版本 tag）
+docker compose pull
+docker compose up -d
+```
+
 ## 管理命令
 
 ```bash
-./scripts/manage.py check   # 运行环境检查
-./scripts/manage.py up      # 启动所有服务
-./scripts/manage.py down    # 停止所有服务
-./scripts/manage.py logs    # 查看日志
-./scripts/manage.py ps      # 查看容器状态
-./scripts/manage.py pull    # 拉取最新镜像
+./scripts/lexifact.py check   # 运行环境检查
+./scripts/lexifact.py up      # 启动所有服务
+./scripts/lexifact.py down    # 停止所有服务
+./scripts/lexifact.py logs    # 查看日志
+./scripts/lexifact.py ps      # 查看容器状态
+./scripts/lexifact.py pull    # 拉取最新镜像
 ```
 
 ## 数据结构
