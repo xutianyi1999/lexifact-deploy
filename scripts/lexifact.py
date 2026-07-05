@@ -117,8 +117,8 @@ def logs(
 
 @app.command()
 def pull():
-    """Pull latest images from registry."""
-    compose("pull")
+    """Pull latest images from registry (including session)."""
+    compose("--profile", "image", "pull")
 
 
 @app.command()

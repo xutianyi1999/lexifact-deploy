@@ -52,7 +52,7 @@ cp .env.example .env
 或者直接用 docker compose：
 
 ```bash
-docker compose pull
+docker compose --profile image pull
 docker compose up -d
 ```
 
@@ -70,7 +70,7 @@ docker compose up -d
 
 ```bash
 git pull
-docker compose pull
+docker compose --profile image pull
 docker compose up -d
 ```
 
@@ -81,7 +81,7 @@ docker compose up -d
 ```bash
 git tag --list                        # 查看有哪些版本
 git checkout v0.2.0-alpha.1           # 回滚到指定版本（compose 文件会 pin 对应版本 tag）
-docker compose pull
+docker compose --profile image pull
 docker compose up -d
 ```
 
