@@ -72,7 +72,9 @@ def up():
     if env_path.exists():
         dotenv.load_dotenv(env_path)
     else:
-        console.print("[yellow].env not found — env vars from environment only[/yellow]")
+        console.print(
+            "[yellow].env not found — env vars from environment only[/yellow]"
+        )
 
     console.print("[bold]Preflight checks[/bold]")
     if not _check_all():
