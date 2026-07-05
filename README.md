@@ -6,7 +6,7 @@
 
 - **Docker** 24+
 - **Docker Compose** v2（通常随 Docker 一起安装）
-- **Python** 3.10+（运行管理脚本需要）
+- **uv**（运行管理脚本需要，`curl -LsSf https://astral.sh/uv/install.sh | sh`）
 
 ## 快速开始
 

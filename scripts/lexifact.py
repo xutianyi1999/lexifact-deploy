@@ -1,19 +1,21 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "typer>=0.26.8",
+#   "rich>=15.0.0",
+#   "python-dotenv>=1.2.2",
+# ]
+# ///
 
 import subprocess
 import re
 import sys
 import os
 from pathlib import Path
-
-try:
-    import typer
-    import dotenv
-    from rich.console import Console
-except ImportError:
-    print("Missing dependencies. Install them:")
-    print("  pip install typer rich python-dotenv")
-    sys.exit(1)
+import typer
+import dotenv
+from rich.console import Console
 
 app = typer.Typer()
 console = Console()
