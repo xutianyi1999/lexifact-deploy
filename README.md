@@ -6,6 +6,7 @@
 
 - **Docker** 24+
 - **Docker Compose** v2（通常随 Docker 一起安装）
+- **Python** 3.10+（运行管理脚本需要）
 
 ## 快速开始
 
@@ -34,7 +35,11 @@ cp .env.example .env
 | `LLM_MODEL` | 模型名（如 `deepseek-v4-flash`） |
 | `LLM_REASONING_EFFORT` | 推理深度（minimal/low/default/high/max） |
 | `VOICE_ARK_API_KEY` | 火山引擎 ARK 语音识别 API 密钥 |
-| `MIDSCENE_MODEL_*` | Midscene UI 自动化模型配置 |
+| `MIDSCENE_MODEL_BASE_URL` | Midscene 视觉模型 API 地址 |
+| `MIDSCENE_MODEL_API_KEY` | Midscene 视觉模型 API 密钥 |
+| `MIDSCENE_MODEL_NAME` | Midscene 模型名（如 `doubao-seed-2-1-turbo-260628`） |
+| `MIDSCENE_MODEL_FAMILY` | Midscene 模型系列（如 `doubao-seed`） |
+| `MIDSCENE_MODEL_EXTRA_BODY_JSON` | Midscene 附加请求体参数 |
 | `MINERU_TOKEN` | MinerU 文档解析 API Token |
 | `LICENSE_KEY` | 激活码 |
 
@@ -53,12 +58,13 @@ docker compose up -d
 
 浏览器打开 `http://localhost:<NGINX_PORT>`。
 
-### 4. 创建租户
+### 4. 首次初始化
 
 ```bash
 ./scripts/lexifact.py init
-# 然后访问前端页面，按指引创建租户
 ```
+
+浏览器打开 `http://localhost:<NGINX_PORT>`，按页面指引创建租户并登录。
 
 ## 更新
 
@@ -73,8 +79,8 @@ docker compose up -d
 ## 回滚
 
 ```bash
-git tag --list                # 查看有哪些版本
-git checkout v0.1.0           # 回滚到指定版本（compose 文件会 pin 对应版本 tag）
+git tag --list                        # 查看有哪些版本
+git checkout v0.2.0-alpha.1           # 回滚到指定版本（compose 文件会 pin 对应版本 tag）
 docker compose pull
 docker compose up -d
 ```
