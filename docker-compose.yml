@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: ghcr.io/xutianyi1999/lexifact-nginx:v0.2.0-alpha.1
+    image: ghcr.io/xutianyi1999/lexifact-nginx:latest
     ports:
       - "${NGINX_PORT:?Host port for nginx reverse proxy (e.g. 80)}:80"
     restart: unless-stopped
@@ -9,7 +9,7 @@ services:
       - backend
 
   frontend:
-    image: ghcr.io/xutianyi1999/lexifact-frontend:v0.2.0-alpha.1
+    image: ghcr.io/xutianyi1999/lexifact-frontend:latest
     expose:
       - 3000
     restart: unless-stopped
@@ -19,7 +19,7 @@ services:
       - backend
 
   backend:
-    image: ghcr.io/xutianyi1999/lexifact-backend:v0.2.0-alpha.1
+    image: ghcr.io/xutianyi1999/lexifact-backend:latest
     expose:
       - "8080"
     restart: unless-stopped
@@ -49,7 +49,7 @@ services:
       - mobsf
 
   mobsf:
-    image: ghcr.io/xutianyi1999/lexifact-mobsf:v0.2.0-alpha.1
+    image: ghcr.io/xutianyi1999/lexifact-mobsf:latest
     expose:
       - 8000
     restart: unless-stopped
@@ -57,7 +57,7 @@ services:
       - MOBSF_API_KEY=lexifact-mobsf-fixed-key
 
   session:
-    image: ghcr.io/xutianyi1999/lexifact-session:v0.2.0-alpha.1
+    image: ghcr.io/xutianyi1999/lexifact-session:latest
     profiles:
       - image
     restart: no
