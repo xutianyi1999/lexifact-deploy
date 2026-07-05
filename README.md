@@ -43,7 +43,15 @@ cp .env.example .env
 | `MINERU_TOKEN` | MinerU 文档解析 API Token |
 | `LICENSE_KEY` | 激活码 |
 
-### 3. 启动
+### 3. 创建租户
+
+```bash
+./scripts/lexifact.py create-tenant "公司名称"
+```
+
+输出中的 `API Key`（`lf-...`）是登录凭证，保存它。
+
+### 4. 启动
 
 ```bash
 ./scripts/lexifact.py up
@@ -56,15 +64,9 @@ docker compose --profile image pull
 docker compose up -d
 ```
 
-浏览器打开 `http://localhost:<NGINX_PORT>`。
+### 5. 登录
 
-### 4. 首次初始化
-
-```bash
-./scripts/lexifact.py init
-```
-
-浏览器打开 `http://localhost:<NGINX_PORT>`，按页面指引创建租户并登录。
+浏览器打开 `http://localhost:<NGINX_PORT>`，输入上一步获取的 API Key。
 
 ## 更新
 
