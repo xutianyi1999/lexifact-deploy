@@ -13,6 +13,8 @@ services:
     expose:
       - 3000
     restart: unless-stopped
+    volumes:
+      - ${HOME}/.lexifact:/root/.lexifact
     environment:
       - BACKEND_URL=http://backend:8080
     depends_on:
@@ -45,6 +47,7 @@ services:
       - MIDSCENE_MODEL_EXTRA_BODY_JSON=${MIDSCENE_MODEL_EXTRA_BODY_JSON:?Extra JSON body for Midscene model}
       - MINERU_TOKEN=${MINERU_TOKEN:?MinerU document parsing API Bearer token}
       - LICENSE_KEY=${LICENSE_KEY:?License activation key}
+      - FRONTEND_URL=http://frontend:3000
     depends_on:
       - mobsf
 
