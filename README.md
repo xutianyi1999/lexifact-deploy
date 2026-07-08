@@ -115,12 +115,18 @@ docker compose up -d
 
 解压后得到 `lexifact-tunnel`（或 `lexifact-tunnel.exe`）单个二进制文件。
 
+### 手机准备
+
+1. 开启 **开发者选项**：设置 → 关于手机 → 连续点击「版本号」7 次
+2. 开启 **USB 调试**：设置 → 系统 → 开发者选项 → USB 调试
+3. 用数据线连接电脑，选择 **传输文件** 模式
+4. 首次连接会弹出 RSA 指纹确认，勾选「一律允许」→ 确定
+
 ### 前置依赖
 
 - **ADB** — Android Debug Bridge
   - Windows：程序会自动下载安装
   - macOS/Linux：手动安装 [platform-tools](https://developer.android.com/tools/releases/platform-tools)，确保 `adb` 在 `PATH` 中
-- **scrcpy**（可选）— 屏幕镜像工具，自行安装
 
 ### 用法
 
@@ -147,7 +153,7 @@ docker compose up -d
 
 1. 用 API Key 向服务端获取 JWT
 2. 通过 WebSocket 建立隧道连接
-3. 绑定本地 ADB（5037）和 scrcpy（43888）端口
+3. 绑定本地 ADB（5037）端口，后端通过 ADB 自动推送 scrcpy-server 到手机并启动屏幕镜像
 4. 断线自动重连（3 秒间隔）
 
 ## 数据结构
