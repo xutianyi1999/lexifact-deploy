@@ -99,6 +99,57 @@ docker compose up -d
 ./scripts/lexifact.py create-tenant   # 创建租户 API Key
 ```
 
+## PC 端隧道代理
+
+`lexifact-tunnel` 是 ADB 隧道代理，运行在用户 PC 上，通过 WebSocket 连接后端，将本地 ADB 和 scrcpy 端口暴露给 sandbox 容器中的 agent，实现远程手机操控。
+
+### 下载
+
+从 [Releases](https://github.com/xutianyi1999/lexifact-deploy/releases) 下载对应平台的二进制：
+
+| 平台 | 文件 |
+|------|------|
+| Linux x86_64 | `lexifact-tunnel-*-x86_64-unknown-linux-gnu.tar.gz` |
+| macOS ARM | `lexifact-tunnel-*-aarch64-apple-darwin.tar.gz` |
+| Windows x86_64 | `lexifact-tunnel-*-x86_64-pc-windows-msvc.zip` |
+
+解压后得到 `lexifact-tunnel`（或 `lexifact-tunnel.exe`）单个二进制文件。
+
+### 前置依赖
+
+- **ADB** — Android Debug Bridge
+  - Windows：程序会自动下载安装
+  - macOS/Linux：手动安装 [platform-tools](https://developer.android.com/tools/releases/platform-tools)，确保 `adb` 在 `PATH` 中
+- **scrcpy**（可选）— 屏幕镜像工具，自行安装
+
+### 用法
+
+```bash
+# 查看帮助
+./lexifact-tunnel --help
+
+# 启动 PC 模式
+./lexifact-tunnel \
+  --base-url https://your-server.com \
+  --api-key lf-xxxxxxxxxxxxxxxx \
+  --mode pc
+```
+
+参数说明：
+
+| 参数 | 说明 |
+|------|------|
+| `--base-url` | 后端服务地址，如 `http://localhost:8080` 或 `https://your-server.com` |
+| `--api-key` | 租户 API Key（`lf-...`），通过 `create-tenant` 获取 |
+| `--mode` | `pc`（绑定 ADB+scrcpy）或 `docker`（仅转发 ADB） |
+
+程序会：
+
+1. 用 API Key 向服务端获取 JWT
+2. 通过 WebSocket 建立隧道连接
+3. 绑定本地 ADB（5037）和 scrcpy（43888）端口
+4. 断线自动重连（3 秒间隔）
+
 ## 数据结构
 
 所有数据存储在宿主机 `~/.lexifact/` 目录，包括：
