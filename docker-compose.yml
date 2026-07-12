@@ -28,13 +28,19 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${HOME}/.lexifact:/root/.lexifact
+    devices:
+      - /dev/fuse:/dev/fuse
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
     environment:
       - PORT=8080
       - JWT_SECRET=${JWT_SECRET:?Secret key for JWT signing — any random string, change in production}
       - MOBSF_BASE_URL=http://mobsf:8000
       - MOBSF_API_KEY=lexifact-mobsf-fixed-key
       - MOBSF_TIMEOUT_SECS=300
-      - LLM_PROXY_TOKEN=lx-lexifact-internal-proxy-secret
+      - GATEWAY_TOKEN=lx-lexifact-internal-gateway-secret
       - LLM_BASE_URL=${LLM_BASE_URL:?LLM API base URL, OpenAI-compatible — e.g. https://api.deepseek.com}
       - LLM_API_KEY=${LLM_API_KEY:?LLM API key}
       - LLM_MODEL=${LLM_MODEL:?LLM model name — e.g. deepseek-v4-flash, deepseek-v4-pro}

@@ -7,6 +7,7 @@
 - **Docker** 24+
 - **Docker Compose** v2（通常随 Docker 一起安装）
 - **uv**（运行管理脚本需要，`curl -LsSf https://astral.sh/uv/install.sh | sh`）
+- **文件系统** ext4（需 `prjquota` 挂载选项）或 XFS，支持磁盘配额
 
 ## 快速开始
 
